@@ -29,8 +29,8 @@ interface GitHubEvent {
         action?: string
         ref?: string | null
         ref_type?: string
-        size?: number
-        commits?: { message: string }[]
+        before?: string
+        head?: string
         number?: number
         pull_request?: { url: string; number: number; merged?: boolean }
         issue?: { number: number; title: string }
@@ -38,7 +38,12 @@ interface GitHubEvent {
     }
 }
 
-type PendingActivity = Activity & { pullUrl?: string }
+interface PushRange {
+    before: string
+    head: string
+}
+
+type PendingActivity = Activity & { pullUrl?: string; pushes?: PushRange[] }
 
 function githubHeaders() {
     const token = process.env.GITHUB_TOKEN
@@ -58,12 +63,12 @@ function describe(
 
     switch (type) {
         case "PushEvent": {
-            const size = payload.size ?? payload.commits?.length ?? 1
-            const latest = payload.commits?.at(-1)?.message
+            const { before, head } = payload
             return {
                 kind: "push",
-                text: latest ? firstLine(latest) : pushText(size),
-                commits: size,
+                text: pushText(1),
+                commits: 1,
+                pushes: before && head ? [{ before, head }] : [],
             }
         }
         case "PullRequestEvent": {
@@ -133,8 +138,8 @@ function describe(
 const pushText = (count: number) =>
     `Pushed ${count} commit${count === 1 ? "" : "s"}`
 
-function mergePushes<T extends Activity>(activity: T[]) {
-    const merged: T[] = []
+function mergePushes(activity: PendingActivity[]) {
+    const merged: PendingActivity[] = []
 
     for (const item of activity) {
         const prev = merged.at(-1)
@@ -149,6 +154,7 @@ function mergePushes<T extends Activity>(activity: T[]) {
         ) {
             prev.commits = (prev.commits ?? 1) + (item.commits ?? 1)
             prev.text = pushText(prev.commits)
+            prev.pushes = [...(prev.pushes ?? []), ...(item.pushes ?? [])]
         } else {
             merged.push({ ...item })
         }
@@ -161,19 +167,72 @@ function capitalize(text = "") {
     return text.charAt(0).toUpperCase() + text.slice(1)
 }
 
-async function getPullTitle(url: string) {
+async function fetchGitHub<T>(url: string, revalidate: number | false) {
     try {
         const res = await fetch(url, {
             headers: githubHeaders(),
-            next: { revalidate: 86400 },
+            next: { revalidate },
             signal: AbortSignal.timeout(5000),
         })
         if (!res.ok) return null
-        const { title } = (await res.json()) as { title: string }
-        return title
+        return (await res.json()) as T
     } catch {
         return null
     }
+}
+
+interface CommitInfo {
+    commit: { message: string }
+}
+
+async function getPushCommits(repo: string, { before, head }: PushRange) {
+    const base = `https://api.github.com/repos/${repo}`
+
+    // New branches have no previous commit to compare against
+    if (/^0+$/.test(before)) {
+        const data = await fetchGitHub<CommitInfo>(
+            `${base}/commits/${head}`,
+            false,
+        )
+        return data && { count: 1, message: data.commit.message }
+    }
+
+    const data = await fetchGitHub<{
+        total_commits: number
+        commits: CommitInfo[]
+    }>(`${base}/compare/${before}...${head}`, false)
+    return (
+        data && {
+            count: data.total_commits,
+            message: data.commits.at(-1)?.commit.message,
+        }
+    )
+}
+
+async function resolve({
+    pullUrl,
+    pushes,
+    ...item
+}: PendingActivity): Promise<Activity> {
+    if (pullUrl) {
+        const pull = await fetchGitHub<{ title: string }>(pullUrl, 86400)
+        return pull ? { ...item, text: `${item.text}: ${pull.title}` } : item
+    }
+
+    if (pushes?.length) {
+        const results = await Promise.all(
+            pushes.map((push) => getPushCommits(item.repo, push)),
+        )
+        const commits = results.reduce((sum, r) => sum + (r?.count || 1), 0)
+        const message = results.length === 1 && results[0]?.message
+        return {
+            ...item,
+            commits,
+            text: message ? firstLine(message) : pushText(commits),
+        }
+    }
+
+    return item
 }
 
 export async function getRecentActivity(
@@ -208,14 +267,7 @@ export async function getRecentActivity(
 
         const recent = mergePushes(activity).slice(0, limit)
 
-        return Promise.all(
-            recent.map(async ({ pullUrl, ...item }) => {
-                const title = pullUrl && (await getPullTitle(pullUrl))
-                return title
-                    ? { ...item, text: `${item.text}: ${title}` }
-                    : item
-            }),
-        )
+        return Promise.all(recent.map(resolve))
     } catch (e) {
         console.error("Error fetching GitHub activity:", e)
         return null
