@@ -32,9 +32,20 @@ interface GitHubEvent {
         size?: number
         commits?: { message: string }[]
         number?: number
-        pull_request?: { number: number; title: string; merged?: boolean }
+        pull_request?: { url: string; number: number; merged?: boolean }
         issue?: { number: number; title: string }
         release?: { tag_name: string; name: string | null }
+    }
+}
+
+type PendingActivity = Activity & { pullUrl?: string }
+
+function githubHeaders() {
+    const token = process.env.GITHUB_TOKEN
+    return {
+        Accept: "application/vnd.github+json",
+        "User-Agent": "thororen-website",
+        ...(token && { Authorization: `Bearer ${token}` }),
     }
 }
 
@@ -42,7 +53,7 @@ const firstLine = (text: string) => text.split("\n")[0]
 
 function describe(
     event: GitHubEvent,
-): Omit<Activity, "id" | "repo" | "date"> | null {
+): Omit<PendingActivity, "id" | "repo" | "date"> | null {
     const { type, payload } = event
 
     switch (type) {
@@ -58,11 +69,14 @@ function describe(
         case "PullRequestEvent": {
             const pr = payload.pull_request
             if (!pr) return null
-            const merged = payload.action === "closed" && pr.merged
-            const verb = merged ? "Merged" : `${capitalize(payload.action)}`
+            const merged =
+                payload.action === "merged" ||
+                (payload.action === "closed" && pr.merged)
+            const verb = merged ? "Merged" : capitalize(payload.action)
             return {
                 kind: merged ? "merge" : "pull-request",
-                text: `${verb} PR #${pr.number}: ${pr.title}`,
+                text: `${verb} PR #${pr.number}`,
+                pullUrl: pr.url,
             }
         }
         case "PullRequestReviewEvent": {
@@ -70,7 +84,8 @@ function describe(
             if (!pr) return null
             return {
                 kind: "pull-request",
-                text: `Reviewed PR #${pr.number}: ${pr.title}`,
+                text: `Reviewed PR #${pr.number}`,
+                pullUrl: pr.url,
             }
         }
         case "IssuesEvent": {
@@ -118,8 +133,8 @@ function describe(
 const pushText = (count: number) =>
     `Pushed ${count} commit${count === 1 ? "" : "s"}`
 
-function mergePushes(activity: Activity[]) {
-    const merged: Activity[] = []
+function mergePushes<T extends Activity>(activity: T[]) {
+    const merged: T[] = []
 
     for (const item of activity) {
         const prev = merged.at(-1)
@@ -146,6 +161,21 @@ function capitalize(text = "") {
     return text.charAt(0).toUpperCase() + text.slice(1)
 }
 
+async function getPullTitle(url: string) {
+    try {
+        const res = await fetch(url, {
+            headers: githubHeaders(),
+            next: { revalidate: 86400 },
+            signal: AbortSignal.timeout(5000),
+        })
+        if (!res.ok) return null
+        const { title } = (await res.json()) as { title: string }
+        return title
+    } catch {
+        return null
+    }
+}
+
 export async function getRecentActivity(
     limit = 10,
 ): Promise<Activity[] | null> {
@@ -153,10 +183,7 @@ export async function getRecentActivity(
         const res = await fetch(
             `https://api.github.com/users/${githubUser}/events/public?per_page=100`,
             {
-                headers: {
-                    Accept: "application/vnd.github+json",
-                    "User-Agent": "thororen-website",
-                },
+                headers: githubHeaders(),
                 next: { revalidate: 300 },
                 signal: AbortSignal.timeout(5000),
             },
@@ -164,7 +191,7 @@ export async function getRecentActivity(
         if (!res.ok) throw new Error(`GitHub responded ${res.status}`)
 
         const events = (await res.json()) as GitHubEvent[]
-        const activity: Activity[] = []
+        const activity: PendingActivity[] = []
 
         events.sort((x, y) => y.created_at.localeCompare(x.created_at))
 
@@ -179,7 +206,16 @@ export async function getRecentActivity(
             })
         }
 
-        return mergePushes(activity).slice(0, limit)
+        const recent = mergePushes(activity).slice(0, limit)
+
+        return Promise.all(
+            recent.map(async ({ pullUrl, ...item }) => {
+                const title = pullUrl && (await getPullTitle(pullUrl))
+                return title
+                    ? { ...item, text: `${item.text}: ${title}` }
+                    : item
+            }),
+        )
     } catch (e) {
         console.error("Error fetching GitHub activity:", e)
         return null
