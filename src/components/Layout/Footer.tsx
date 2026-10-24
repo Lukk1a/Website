@@ -8,7 +8,16 @@ export default function Footer() {
             </span>
 
             <p className="text-neutral-600 dark:text-neutral-400">
-                Made with 💗 by {displayName}.
+                Forked by {displayName} from the{" "}
+                <a
+                    href="https://github.com/thororen1234/Website"
+                    target="_blank"
+                    rel="noreferrer"
+                    className="underline hover:text-rose-500"
+                >
+                    original repo
+                </a>
+                .
             </p>
         </footer>
     )
