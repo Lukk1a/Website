@@ -35,12 +35,12 @@ export default async function HypixelSection() {
                     className="group flex items-center gap-4"
                 >
                     <img
-                        src={`https://mc-heads.net/avatar/${hypixel.uuid}/56`}
+                        src={`https://skins.thororen.com/cheatbreaker/helm/${hypixel.uuid}/56`}
                         alt={`${hypixel.username}'s avatar`}
                         width={56}
                         height={56}
                         draggable={false}
-                        className="image-rendering-pixelated size-14 rounded-lg"
+                        className="size-14 rounded-lg select-none [image-rendering:pixelated] transition-transform duration-300 group-hover:scale-105"
                     />
 
                     <div className="flex min-w-0 flex-col">
