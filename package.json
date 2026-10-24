@@ -16,6 +16,7 @@
     },
     "dependencies": {
         "@shikijs/monaco": "^4.4.3",
+        "@vercel/speed-insights": "^2.0.0",
         "@xyflow/react": "^12.11.6",
         "client-zip": "^2.5.1",
         "comlink": "^4.4.2",

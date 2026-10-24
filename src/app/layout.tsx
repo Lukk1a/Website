@@ -1,6 +1,7 @@
 import "@/styles/global.css"
 import type { Metadata, Viewport } from "next"
 import type { ReactNode } from "react"
+import { SpeedInsights } from "@vercel/speed-insights/next"
 import { siteUrl } from "@/consts"
 
 export const metadata: Metadata = {
@@ -29,6 +30,7 @@ export default function RootLayout({ children }: { children: ReactNode }) {
             </head>
             <body>
                 {children}
+                <SpeedInsights />
 
                 <div style={{ display: "none" }}>
                     <a
