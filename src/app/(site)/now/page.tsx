@@ -8,7 +8,6 @@ import ListeningSection from "@/components/Widgets/ListeningSection"
 import SteamSection from "@/components/Widgets/SteamSection"
 import MinecraftSection from "@/components/Widgets/MinecraftSection"
 import LiveRefresh from "@/components/Widgets/LiveRefresh"
-import WatchingSection from "@/components/Widgets/WatchingSection"
 import { liveRefreshSeconds } from "@/consts"
 
 export const dynamic = "force-dynamic"
@@ -16,7 +15,7 @@ export const dynamic = "force-dynamic"
 export const metadata = createMetadata({
     title: "Now",
     description:
-        "What I'm up to right now: what I'm playing, listening to, watching and coding.",
+        "What I'm up to right now: what I'm playing, listening to and coding.",
     path: "/now",
 })
 
@@ -31,7 +30,6 @@ export default function Now() {
                     <SteamSection />
                     <MinecraftSection />
                     <ListeningSection />
-                    <WatchingSection />
                 </div>
 
                 <div className="flex flex-col gap-8 self-stretch">
