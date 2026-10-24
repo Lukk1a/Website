@@ -71,18 +71,6 @@ export default async function MinecraftSection() {
                         >
                             {mcUsername}
                         </a>
-                        <span className="text-sm text-neutral-500 dark:text-neutral-400">
-                            Wearing{" "}
-                            <a
-                                href="https://cheatbreaker.net/"
-                                target="_blank"
-                                rel="noreferrer"
-                                className="underline hover:text-rose-500"
-                            >
-                                CheatBreaker
-                            </a>{" "}
-                            cosmetics
-                        </span>
                     </div>
 
                     {capes.length > 0 && (
