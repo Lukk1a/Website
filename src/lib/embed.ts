@@ -1,5 +1,7 @@
 import {
+    bio,
     discordPages,
+    displayName,
     discordUserId,
     miscPages,
     projects,
@@ -83,7 +85,7 @@ export function siteEmbed(avatar: EmbedImage) {
         accent_color: ACCENT_COLOR,
         components: [
             header(
-                "# thororen\nSoftware developer from the United States with experience in TypeScript, JavaScript, Python, and Go.",
+                `# ${displayName}\n${bio}`,
                 avatar,
             ),
             { type: 14 },
@@ -174,7 +176,7 @@ const PAGE_INFO: Record<
     now: {
         title: "Now",
         description:
-            "A live snapshot of what I'm playing, listening to, watching and coding, plus recent GitHub activity.",
+            "A live snapshot of what I'm playing, listening to and coding, plus recent GitHub activity.",
     },
     discord: {
         title: "Discord",

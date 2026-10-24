@@ -9,7 +9,7 @@ import {
     Info,
     ListChecks,
 } from "lucide-react"
-import { projects } from "@/consts"
+import { displayName, projects } from "@/consts"
 import { createMetadata } from "@/lib/metadata"
 import { getProject, isActive, yearRange } from "@/lib/projects"
 import { ownerOf } from "@/lib/repos"
@@ -34,7 +34,7 @@ export async function generateMetadata({ params }: Props) {
     if (!project) return {}
 
     return createMetadata({
-        title: `${project.title} | thororen`,
+        title: `${project.title} | ${displayName}`,
         description: project.description,
         path: `/projects/${project.slug}`,
         image: `/projects/${project.slug}/og.png`,

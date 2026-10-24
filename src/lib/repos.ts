@@ -28,7 +28,7 @@ function fetchRepos(kind: "orgs" | "users", owner: string) {
         {
             headers: {
                 Accept: "application/vnd.github+json",
-                "User-Agent": "thororen-website",
+                "User-Agent": "lukka-website",
             },
             cache: "no-store",
             signal: AbortSignal.timeout(5000),

@@ -49,7 +49,7 @@ function githubHeaders() {
     const token = process.env.GITHUB_TOKEN
     return {
         Accept: "application/vnd.github+json",
-        "User-Agent": "thororen-website",
+        "User-Agent": "lukka-website",
         ...(token && { Authorization: `Bearer ${token}` }),
     }
 }

@@ -127,7 +127,7 @@ export async function GET(
                             </span>
                         ))}
                     </div>
-                    <span>thororen.com</span>
+                    <span>lukka.dev</span>
                 </div>
             </div>
         </div>,

@@ -3,9 +3,10 @@ import { TriangleAlert } from "lucide-react"
 import Footer from "@/components/Layout/Footer"
 import Header from "@/components/Layout/Header"
 import { createMetadata } from "@/lib/metadata"
+import { displayName } from "@/consts"
 
 export const metadata = createMetadata({
-    title: "thororen",
+    title: displayName,
     description: "Page not found.",
 })
 

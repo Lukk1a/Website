@@ -7,7 +7,7 @@ import {
     Share2,
     Users,
 } from "lucide-react"
-import { projects } from "@/consts"
+import { bio, displayName, projects } from "@/consts"
 import { createMetadata } from "@/lib/metadata"
 import { isActive } from "@/lib/projects"
 import Section from "@/components/Base/Section"
@@ -21,9 +21,9 @@ import LiveWidgets from "@/components/Widgets/LiveWidgets"
 export const revalidate = 3600
 
 export const metadata = createMetadata({
-    title: "thororen",
+    title: displayName,
     description:
-        "I'm a software developer from the United States of America with experience in languages such as TypeScript, JavaScript, Python, and Go.",
+        bio,
     path: "/",
 })
 
