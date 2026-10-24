@@ -1010,7 +1010,7 @@ function PreviewToggle({
             aria-pressed={enabled}
             disabled={disabled}
             onClick={() => onChange(!enabled)}
-            className={`inline-flex h-7 items-center gap-1.5 rounded-lg border px-2 text-xs transition-colors ${
+            className={`inline-flex h-7 items-center gap-1.5 rounded-lg border px-2 text-xs whitespace-nowrap transition-colors ${
                 disabled
                     ? "cursor-not-allowed border-zinc-200 bg-zinc-100 text-neutral-400 dark:border-zinc-800 dark:bg-zinc-900/50 dark:text-neutral-600"
                     : enabled
@@ -1065,7 +1065,7 @@ export default function DiscordMarkdownTool() {
             <div className="flex flex-col gap-2">
                 <div className="flex min-h-7 flex-wrap items-center justify-between gap-3">
                     <span className={labelClass}>Discord preview</span>
-                    <div className="flex items-center gap-3">
+                    <div className="flex flex-wrap items-center gap-2 sm:gap-3">
                         <PreviewToggle
                             label="Syntax highlighting"
                             enabled={showSyntax}

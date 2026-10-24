@@ -35,12 +35,12 @@ export default async function HypixelSection() {
                     className="group flex items-center gap-4"
                 >
                     <img
-                        src={`https://minotar.net/avatar/${hypixel.uuid}`}
+                        src={`https://skins.thororen.com/cheatbreaker/helm/${hypixel.uuid}/56`}
                         alt=""
                         width={56}
                         height={56}
                         draggable={false}
-                        className="image-rendering-pixelated size-14 rounded-lg bg-zinc-200 dark:bg-zinc-800"
+                        className="image-rendering-pixelated size-14 rounded-lg"
                     />
 
                     <div className="flex min-w-0 flex-col">
@@ -77,11 +77,6 @@ export default async function HypixelSection() {
                         )}
                     </div>
                 </a>
-
-                <p className="text-xs text-neutral-500 dark:text-neutral-400">
-                    Hypixel API data · Not affiliated with or endorsed by
-                    Hypixel.
-                </p>
             </Box>
         </Section>
     )

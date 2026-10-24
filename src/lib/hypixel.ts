@@ -95,7 +95,6 @@ export async function getHypixelStatus(): Promise<HypixelStatus | null> {
             next: { revalidate },
             signal: AbortSignal.timeout(8000),
         })
-        // Online state changes constantly, the name and rank almost never do
         const [statusResponse, playerResponse] = await Promise.all([
             fetch(
                 `https://api.hypixel.net/v2/status?${params}`,

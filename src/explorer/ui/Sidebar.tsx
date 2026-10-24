@@ -19,7 +19,7 @@ export default function Sidebar() {
     const [tab, setTab] = useState<Tab>("modules")
 
     return (
-        <aside className="flex w-80 shrink-0 flex-col border-r border-zinc-300 dark:border-zinc-800">
+        <aside className="flex w-80 shrink-0 flex-col border-r border-zinc-300 max-md:absolute max-md:inset-0 max-md:z-10 max-md:w-full max-md:border-r-0 max-md:bg-zinc-100 dark:border-zinc-800 max-md:dark:bg-zinc-950">
             <div className="px-3 py-3">
                 <div
                     role="tablist"

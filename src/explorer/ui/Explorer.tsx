@@ -29,6 +29,9 @@ import { errorMessage, useAsync } from "./useAsync"
 const iconButtonClass =
     "flex size-9 shrink-0 cursor-pointer items-center justify-center rounded-lg border border-zinc-300 bg-zinc-100 text-neutral-600 transition-colors hover:bg-zinc-200 hover:text-rose-500 active:scale-[.97] disabled:cursor-not-allowed disabled:opacity-50 dark:border-zinc-800 dark:bg-zinc-900 dark:text-neutral-300 dark:hover:bg-zinc-800"
 
+// The sidebar covers the code view on narrow screens
+const isNarrow = () => matchMedia("(max-width: 767px)").matches
+
 function useSiteDark() {
     const [dark, setDark] = useState(true)
 
@@ -69,8 +72,11 @@ export default function Explorer() {
 
     useEffect(() => {
         useExplorerStore.setState({
-            navigate: (id, selection) =>
-                router.push(moduleHref(buildHash, id, selection)),
+            navigate: (id, selection) => {
+                router.push(moduleHref(buildHash, id, selection))
+                if (isNarrow())
+                    useExplorerStore.setState({ sidebarOpen: false })
+            },
         })
     }, [router, buildHash])
 
@@ -81,7 +87,10 @@ export default function Explorer() {
     const loadExplorer = useCallback(async () => {
         await Promise.all([setupMonaco(), loadBuild(buildHash)])
         registerLanguageFeatures()
-        useExplorerStore.setState({ selectedModule })
+        useExplorerStore.setState({
+            selectedModule,
+            ...(selectedModule != null && isNarrow() && { sidebarOpen: false }),
+        })
     }, [buildHash, selectedModule])
     const load = useAsync(loadExplorer)
 
@@ -131,7 +140,7 @@ function ExplorerLayout({
     return (
         <div className="fixed inset-0 flex flex-col bg-zinc-100 text-neutral-800 dark:bg-zinc-950 dark:text-neutral-200">
             <Header />
-            <div className="flex min-h-0 grow border-t border-zinc-300 dark:border-zinc-800">
+            <div className="relative flex min-h-0 grow border-t border-zinc-300 dark:border-zinc-800">
                 {sidebarOpen && <Sidebar />}
                 <main className="relative min-w-0 grow">
                     <div
@@ -204,7 +213,8 @@ function Header() {
                             : "text-neutral-600 hover:text-neutral-900 dark:text-neutral-400 dark:hover:text-neutral-100"
                     }`}
                 >
-                    <FileCode size={14} /> Code
+                    <FileCode size={14} />
+                    <span className="max-sm:sr-only">Code</span>
                 </button>
                 <button
                     type="button"
@@ -219,7 +229,8 @@ function Header() {
                             : "text-neutral-600 hover:text-neutral-900 dark:text-neutral-400 dark:hover:text-neutral-100"
                     }`}
                 >
-                    <Network size={14} /> Graph
+                    <Network size={14} />
+                    <span className="max-sm:sr-only">Graph</span>
                 </button>
             </div>
 
