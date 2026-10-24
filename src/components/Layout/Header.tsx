@@ -6,7 +6,7 @@ import { usePathname } from "next/navigation"
 import { useEffect, useState } from "react"
 import Nameplate from "@/components/Layout/Nameplate"
 import ThemeToggle from "@/components/ThemeToggle"
-import { navLinks } from "@/consts"
+import { displayName, navLinks } from "@/consts"
 import { useProfile } from "@/lib/profile"
 
 const iconButtonClass =
@@ -62,7 +62,7 @@ export default function Header() {
                         draggable={false}
                         className="rounded-full select-none"
                     />
-                    <span>thororen</span>
+                    <span>{displayName}</span>
                     <Nameplate />
                 </Link>
 

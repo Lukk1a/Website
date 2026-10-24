@@ -3,7 +3,7 @@ import Box from "@/components/Base/Box"
 import Tag from "@/components/Base/Tag"
 import Badges from "@/components/Profile/Badges"
 import ClanTag from "@/components/Profile/ClanTag"
-import { bio, information } from "@/consts"
+import { bio, displayName, information } from "@/consts"
 
 export default function Hero() {
     return (
@@ -15,7 +15,7 @@ export default function Hero() {
             <div className="flex min-w-0 flex-col items-center gap-3 text-center md:items-start md:text-left">
                 <div className="flex items-center gap-3">
                     <h1 className="text-3xl font-semibold text-neutral-900 dark:text-neutral-100">
-                        thororen
+                        {displayName}
                     </h1>
                     <ClanTag />
                 </div>
