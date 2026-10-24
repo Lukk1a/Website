@@ -11,7 +11,7 @@ export default function ProjectCard(project: Project) {
     const active = isActive(project)
 
     return (
-        <div className="group relative flex flex-col gap-3 rounded-2xl border border-zinc-300 bg-zinc-100 px-6 py-5 text-neutral-800 transition-colors hover:border-zinc-400 dark:border-zinc-800 dark:bg-zinc-900 dark:text-neutral-300 dark:hover:border-zinc-700">
+        <div className="group relative flex flex-col gap-3 rounded-2xl border border-zinc-300 bg-zinc-100 px-6 py-5 text-neutral-800 transition-all duration-300 hover:-translate-y-1 hover:border-zinc-400 hover:shadow-lg hover:shadow-zinc-950/5 dark:border-zinc-800 dark:bg-zinc-900 dark:text-neutral-300 dark:hover:border-zinc-700 dark:hover:shadow-rose-950/10">
             <Link
                 href={`/projects/${slug}`}
                 aria-label={`${title} details`}
@@ -27,6 +27,7 @@ export default function ProjectCard(project: Project) {
                         <a
                             href={url}
                             target="_blank"
+                            rel="noreferrer"
                             aria-label={`Visit ${title}`}
                             className="transition-colors hover:text-neutral-800 dark:hover:text-neutral-200"
                         >
@@ -37,6 +38,7 @@ export default function ProjectCard(project: Project) {
                         <a
                             href={github}
                             target="_blank"
+                            rel="noreferrer"
                             aria-label="View source on GitHub"
                             className="transition-colors hover:text-neutral-800 dark:hover:text-neutral-200"
                         >

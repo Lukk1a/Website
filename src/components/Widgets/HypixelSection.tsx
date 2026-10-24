@@ -35,8 +35,8 @@ export default async function HypixelSection() {
                     className="group flex items-center gap-4"
                 >
                     <img
-                        src={`https://skins.thororen.com/cheatbreaker/helm/${hypixel.uuid}/56`}
-                        alt=""
+                        src={`https://mc-heads.net/avatar/${hypixel.uuid}/56`}
+                        alt={`${hypixel.username}'s avatar`}
                         width={56}
                         height={56}
                         draggable={false}

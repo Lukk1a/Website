@@ -2,6 +2,7 @@ import Link from "next/link"
 import {
     ArrowRight,
     Activity,
+    Cpu,
     Hammer,
     Highlighter,
     Share2,
@@ -16,6 +17,7 @@ import Friends from "@/components/Profile/Friends"
 import DiscordEmbed from "@/components/Layout/DiscordEmbed"
 import Hero from "@/components/Profile/Hero"
 import Socials from "@/components/Profile/Socials"
+import Skills from "@/components/Profile/Skills"
 import LiveWidgets from "@/components/Widgets/LiveWidgets"
 
 export const revalidate = 3600
@@ -43,6 +45,10 @@ export default function Home() {
                     <LiveWidgets className="xl:grid-cols-1" />
                 </Section>
             </div>
+
+            <Section icon={Cpu} title="Skills & Technologies">
+                <Skills />
+            </Section>
 
             <Section
                 icon={Hammer}

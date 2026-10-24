@@ -44,6 +44,7 @@ export default function Repositories({
                     <a
                         href={github}
                         target="_blank"
+                        rel="noreferrer"
                         className="flex items-center gap-1 hover:text-rose-500"
                     >
                         All {repos.length} on GitHub

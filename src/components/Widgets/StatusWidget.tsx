@@ -24,10 +24,18 @@ export default function StatusWidget() {
         <Widget icon={CircleDot} title="Status">
             <div className="flex flex-col">
                 <div className="flex items-center gap-2">
-                    <span
-                        className="size-3 shrink-0 rounded-full"
-                        style={{ backgroundColor: statusColors[status] }}
-                    />
+                    <span className="relative flex size-3 shrink-0 items-center justify-center">
+                        {status === "online" && (
+                            <span
+                                className="absolute inline-flex size-full animate-ping rounded-full opacity-75"
+                                style={{ backgroundColor: statusColors[status] }}
+                            />
+                        )}
+                        <span
+                            className="relative inline-flex size-3 rounded-full"
+                            style={{ backgroundColor: statusColors[status] }}
+                        />
+                    </span>
                     <span className="text-lg font-medium text-neutral-800 dark:text-neutral-200">
                         {statusLabels[status] ?? statusLabels.offline}
                     </span>

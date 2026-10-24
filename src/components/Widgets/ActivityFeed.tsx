@@ -72,6 +72,7 @@ export default async function ActivityFeed() {
                                     <a
                                         href={`https://github.com/${repo}`}
                                         target="_blank"
+                                        rel="noreferrer"
                                         title={repo}
                                         className="truncate text-sm text-neutral-500 hover:text-rose-500 dark:text-neutral-400"
                                     >
@@ -94,6 +95,7 @@ export default async function ActivityFeed() {
             <a
                 href={`https://github.com/${githubUser}`}
                 target="_blank"
+                rel="noreferrer"
                 className="mt-4 w-fit text-sm font-medium text-neutral-600 hover:text-rose-500 dark:text-neutral-400"
             >
                 More on GitHub →

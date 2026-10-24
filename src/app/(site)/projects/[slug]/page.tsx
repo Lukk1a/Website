@@ -122,12 +122,22 @@ export default async function ProjectPage({ params }: Props) {
 
                 <div className="flex flex-wrap gap-2 sm:ml-auto">
                     {url && (
-                        <a href={url} target="_blank" className={linkClass}>
+                        <a
+                            href={url}
+                            target="_blank"
+                            rel="noreferrer"
+                            className={linkClass}
+                        >
                             <ExternalLink size={16} /> Website
                         </a>
                     )}
                     {github && (
-                        <a href={github} target="_blank" className={linkClass}>
+                        <a
+                            href={github}
+                            target="_blank"
+                            rel="noreferrer"
+                            className={linkClass}
+                        >
                             <Github size={16} /> Source
                         </a>
                     )}

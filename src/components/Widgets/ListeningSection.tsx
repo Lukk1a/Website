@@ -25,19 +25,20 @@ export default async function ListeningSection() {
                             <a
                                 href={track.url}
                                 target="_blank"
-                                className="group flex items-center gap-3 py-2.5"
+                                rel="noreferrer"
+                                className="group flex items-center gap-3 py-2.5 transition-colors"
                             >
                                 {track.image ? (
                                     <img
                                         src={track.image}
-                                        alt=""
+                                        alt={`${track.name} album art`}
                                         width={40}
                                         height={40}
                                         draggable={false}
-                                        className="size-10 shrink-0 rounded-md select-none"
+                                        className="size-10 shrink-0 rounded-md select-none transition-transform duration-200 group-hover:scale-105"
                                     />
                                 ) : (
-                                    <span className="flex size-10 shrink-0 items-center justify-center rounded-md bg-zinc-200 text-neutral-500 dark:bg-zinc-800">
+                                    <span className="flex size-10 shrink-0 items-center justify-center rounded-md bg-zinc-200 text-neutral-500 transition-transform duration-200 group-hover:scale-105 dark:bg-zinc-800">
                                         <Music size={18} />
                                     </span>
                                 )}
@@ -59,7 +60,15 @@ export default async function ListeningSection() {
                                 </div>
 
                                 {track.nowPlaying ? (
-                                    <span className="shrink-0 rounded-full bg-emerald-500/20 px-3 py-1 text-xs font-medium text-neutral-800 dark:text-neutral-300">
+                                    <span className="flex shrink-0 items-center gap-1.5 rounded-full bg-emerald-500/20 px-3 py-1 text-xs font-medium text-neutral-800 dark:text-neutral-300">
+                                        <span
+                                            className="flex h-3 items-end gap-0.5"
+                                            aria-hidden="true"
+                                        >
+                                            <span className="animate-soundwave-1 inline-block w-0.5 rounded-full bg-emerald-500" />
+                                            <span className="animate-soundwave-2 inline-block w-0.5 rounded-full bg-emerald-500" />
+                                            <span className="animate-soundwave-3 inline-block w-0.5 rounded-full bg-emerald-500" />
+                                        </span>
                                         Now playing
                                     </span>
                                 ) : (

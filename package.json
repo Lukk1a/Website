@@ -2,6 +2,7 @@
     "name": "website",
     "type": "module",
     "version": "1.0.0",
+    "license": "MIT",
     "author": "Luka Pajkanovic <pajkanovicluka7@gmail.com>",
     "engines": {
         "node": ">=22.12.0"

@@ -6,11 +6,6 @@ import { getCapes, type Cape } from "@/lib/capes"
 
 const nameMcUrl = `https://namemc.com/profile/${encodeURIComponent(mcUsername)}`
 
-const sides = [
-    { label: "Front", query: "" },
-    { label: "Back", query: "?back" },
-]
-
 function CapeFront({ cape }: { cape: Cape }) {
     // The front face of a cape texture is 10×16 pixels, starting one pixel in from the top left
     return (
@@ -48,17 +43,14 @@ export default async function MinecraftSection() {
                     rel="noreferrer"
                     className="flex shrink-0 justify-center gap-2"
                 >
-                    {sides.map(({ label, query }) => (
-                        <img
-                            key={label}
-                            src={`https://skins.thororen.com/cheatbreaker/armor/body/${mcUuid}/200${query}`}
-                            alt={`${label} of ${mcUsername}'s skin`}
-                            width={80}
-                            height={160}
-                            draggable={false}
-                            className="h-40 w-20 select-none"
-                        />
-                    ))}
+                    <img
+                        src={`https://mc-heads.net/body/${mcUuid}/200`}
+                        alt={`${mcUsername}'s Minecraft skin`}
+                        width={80}
+                        height={160}
+                        draggable={false}
+                        className="h-40 w-20 select-none object-contain transition-transform duration-300 hover:scale-105"
+                    />
                 </a>
 
                 <div className="flex min-w-0 flex-col gap-4">
@@ -72,16 +64,7 @@ export default async function MinecraftSection() {
                             {mcUsername}
                         </a>
                         <span className="text-sm text-neutral-500 dark:text-neutral-400">
-                            Wearing{" "}
-                            <a
-                                href="https://cheatbreaker.net/"
-                                target="_blank"
-                                rel="noreferrer"
-                                className="underline hover:text-rose-500"
-                            >
-                                CheatBreaker
-                            </a>{" "}
-                            cosmetics
+                            Java Edition · Profile: {mcUsername}
                         </span>
                     </div>
 

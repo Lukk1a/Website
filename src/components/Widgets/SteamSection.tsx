@@ -25,16 +25,17 @@ export default async function SteamSection() {
                 <a
                     href={steam.profileUrl}
                     target="_blank"
-                    className="group flex items-center gap-4"
+                    rel="noreferrer"
+                    className="group flex items-center gap-4 transition-transform duration-200"
                 >
                     {steam.avatar && (
                         <img
                             src={steam.avatar}
-                            alt=""
+                            alt={`${steam.name}'s Steam avatar`}
                             width={56}
                             height={56}
                             draggable={false}
-                            className="size-14 rounded-lg select-none"
+                            className="size-14 rounded-lg select-none transition-transform duration-300 group-hover:scale-105"
                         />
                     )}
 
@@ -59,7 +60,7 @@ export default async function SteamSection() {
                     {steam.game?.icon && (
                         <img
                             src={steam.game.icon}
-                            alt=""
+                            alt={`${steam.game.name} icon`}
                             width={40}
                             height={40}
                             draggable={false}
