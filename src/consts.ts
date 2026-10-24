@@ -155,7 +155,6 @@ export const projects: Project[] = [
         title: "OculusMC",
         description:
             "Precision Minecraft server dashboard — PaperMC plugin with Javalin API, React+Vite frontend, live Anvil map, and Plan analytics.",
-        url: "https://github.com/Lukk1a/OculusMC",
         github: "https://github.com/Lukk1a/OculusMC",
         tags: ["Java", "PaperMC", "React", "Vite", "TypeScript"],
         tasks: [
@@ -170,7 +169,6 @@ export const projects: Project[] = [
         title: "activeScreen.desktop",
         description:
             "Desktop activity and monitor utility with high-efficiency screen capture and local telemetry.",
-        url: "https://github.com/Lukk1a/activeScreen.desktop",
         github: "https://github.com/Lukk1a/activeScreen.desktop",
         tags: ["TypeScript", "Desktop", "Node.js"],
         tasks: [
@@ -184,7 +182,7 @@ export const projects: Project[] = [
         title: "portfolio-website",
         description:
             "Personal engineering portfolio engineered for high runtime performance, WCAG 2.2 AA accessibility, and automated multi-stage CI/CD container delivery.",
-        url: "https://github.com/Lukk1a/portfolio-website",
+        url: "https://lukka.dev",
         github: "https://github.com/Lukk1a/portfolio-website",
         tags: ["Next.js", "React", "TypeScript", "Tailwind CSS", "Docker"],
         tasks: [
@@ -199,7 +197,6 @@ export const projects: Project[] = [
         title: "sys-mcp",
         description:
             "High-performance Model Context Protocol (MCP) server for systems diagnostics, metrics, and contextual environment feeds.",
-        url: "https://github.com/Lukk1a/sys-mcp",
         github: "https://github.com/Lukk1a/sys-mcp",
         tags: ["TypeScript", "MCP", "Systems", "Node.js"],
         tasks: [
