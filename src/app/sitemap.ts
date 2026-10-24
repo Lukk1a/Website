@@ -15,8 +15,6 @@ const pages = [
     "/misc",
     "/misc/dev-tools",
     "/misc/minecraft-formatting",
-    "/misc/meshos",
-    "/beycord",
 ]
 
 export default function sitemap(): MetadataRoute.Sitemap {
